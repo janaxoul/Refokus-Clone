@@ -1,4 +1,6 @@
-import Product from './Product'
+import { motion } from 'motion/react';
+import { useState } from 'react';
+import Product from './Product';
 
 function Products() {
     var products=[
@@ -38,11 +40,29 @@ function Products() {
             case: true,
         },
     ]
+    const [position, setposition] = useState(0);
+    const mover=(val)=>{
+        setposition(val*300);
+        console.log(val*23)
+    }
 return (
-    <div className='mt-20'>
-        {products.map((elem, index)=><Product key={index} val={elem}/>)}        
+    <div className='mt-20 relative'>
+        {products.map((elem, index)=><Product key={index} val={elem} mover={mover} index={index}/>)}
+        <div className='absolute top-0 w-full h-full pointer-events-none'>
+            <motion.div
+                initial={{y: position, x:"-50%"}}
+                animate={{y: position +`px`}}
+                transition={{ease:[0.45, 0, 0.55, 1],duration:.5}}
+                className='window absolute w-[25rem] h-[300px] left-[43%] bg-white overflow-hidden'>
+                <motion.div animate={{y:-position+`px`}} transition={{ease:[0.45, 0, 0.55, 1],duration:.6}} className='w-full h-full bg-sky-300 '></motion.div>
+                <motion.div animate={{y:-position+`px`}} transition={{ease:[0.45, 0, 0.55, 1],duration:.6}} className='w-full h-full bg-green-700 '></motion.div>
+                <motion.div animate={{y:-position+`px`}} transition={{ease:[0.45, 0, 0.55, 1],duration:.6}} className='w-full h-full bg-red-400 '></motion.div>
+                <motion.div animate={{y:-position+`px`}} transition={{ease:[0.45, 0, 0.55, 1],duration:.6}} className='w-full h-full bg-violet-500 '></motion.div>
+                <motion.div animate={{y:-position+`px`}} transition={{ease:[0.45, 0, 0.55, 1],duration:.6}} className='w-full h-full bg-orange-600 '></motion.div>
+            </motion.div>
+        </div>
     </div>
-  )
+)
 }
 
 export default Products

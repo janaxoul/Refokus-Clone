@@ -20,15 +20,38 @@ function Work() {
     
 
     const {scrollYProgress}= useScroll();
-    useMotionValueEvent(scrollYProgress, "change", (latest) => {
-        showAndHideImages(Math.floor(latest*100))
-    })
-    function showAndHideImages(scrollVal){
-        switch(scrollVal){
-            case 1:
-                console.log("first image")
+    useMotionValueEvent(scrollYProgress, "change", (data) => {
+        function imagesShow(arr){
+            setImages(prev=>(
+                prev.map((items, index)=>(
+                    arr.indexOf(index)=== -1?{...items, isActive:false}:{...items, isActive:true}
+                ))
+            ))
         }
-    }
+        switch(Math.floor(data*100)){
+            case 0:
+                imagesShow([])
+            break
+            case 1:
+                imagesShow([0])
+            break
+            case 2:
+                imagesShow([0,1])
+            break
+            case 3:
+                imagesShow([0,1,2])
+            break
+            case 4:
+                imagesShow([0,1,2,3])
+            break
+            case 6:
+                imagesShow([0,1,2,3,4])
+            break
+            case 8:
+                imagesShow([0,1,2,3,4,5])
+            break
+        }
+    }) 
 return (
     <div className="w-full">
         <div className=' relative max-w-screen-lg mx-auto text-center p-1'>
